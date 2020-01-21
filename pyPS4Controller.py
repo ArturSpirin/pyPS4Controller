@@ -334,6 +334,3 @@ class Controller(Actions):
             self.on_down_arrow_press()
         elif down_arrow_release():
             self.on_down_arrow_release()
-
-
-Controller(interface="/dev/input/js0").listen()
