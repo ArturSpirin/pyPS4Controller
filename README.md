@@ -1,4 +1,7 @@
 # pyPS4Controller
+[![PyPI version shields.io](https://img.shields.io/pypi/v/pyPS4Controller.svg)](https://pypi.python.org/pypi/pyPS4Controller/) 
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/pyPS4Controller.svg)](https://pypi.python.org/pypi/pyPS4Controller/)
+[![Downloads](https://pepy.tech/badge/pyPS4Controller)](https://pepy.tech/project/pyPS4Controller)
 ##
 
 pyPS4Controller is a light module designed to provide hooks for PS4 Controller using Python on Linux.
@@ -8,7 +11,7 @@ pyPS4Controller is a light module designed to provide hooks for PS4 Controller u
 
 ## Usage
 ```python
-from pyPS4Controller import Controller
+from pyPS4Controller.controller import Controller
 
 class MyController(Controller):  # create a custom class for your controller and subclass Controller
     """
