@@ -227,10 +227,10 @@ class Controller(Actions):
             return button_id == 4 and button_type == 1 and value == 0
 
         def R1_pressed():
-            return button_id == 4 and button_type == 1 and value == 1
+            return button_id == 5 and button_type == 1 and value == 1
 
         def R1_released():
-            return button_id == 4 and button_type == 1 and value == 0
+            return button_id == 5 and button_type == 1 and value == 0
 
         # N2 group #
         def L2_pressed():
