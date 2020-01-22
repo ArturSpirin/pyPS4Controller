@@ -101,6 +101,39 @@ class MyController(Controller):  # create a custom class for your controller and
 
     def on_L3_up(self, value):
         print("on_L3_up: ", value)
+    
+    def on_L3_down(self, value):
+        print("on_L3_down: ", value)
+
+    def on_L3_left(self, value):
+        print("on_L3_left: ", value)
+
+    def on_L3_right(self, value):
+        print("on_L3_right: ", value)
+
+    def on_L3_release(self):
+        print("on_L3_release")
+
+    def on_R3_up(self, value):
+        print("on_R3_up: ", value)
+
+    def on_R3_down(self, value):
+        print("on_R3_down: ", value)
+
+    def on_R3_left(self, value):
+        print("on_R3_left: ", value)
+
+    def on_R3_right(self, value):
+        print("on_R3_right: ", value)
+
+    def on_R3_release(self):
+        print("on_R3_release")
+
+    def on_options_press(self):
+        print("on_start_press")
+
+    def on_options_release(self):
+        print("on_start_release")
 
 
 # now make sure the controller is paired over the Bluetooth and turn on the listener
