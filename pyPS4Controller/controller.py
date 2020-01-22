@@ -112,10 +112,10 @@ class Actions:
     def on_R3_release(self):
         pass
 
-    def on_start_press(self):
+    def on_options_press(self):
         pass
 
-    def on_start_release(self):
+    def on_options_release(self):
         pass
 
 
@@ -134,15 +134,23 @@ class Controller(Actions):
 
     def listen(self):
 
-        while not self.stop:
+        def read_events():
+            try:
+                return _file.read(Controller.EVENT_SIZE)
+            except IOError:
+                print("Device not found / disconnected.")
 
-            _file = open(self.interface, "rb")
-            event = _file.read(Controller.EVENT_SIZE)
-            while event:
-                (tv_sec, value, button_type, button_id) = struct.unpack("LhBB", event)
-                if button_id not in [6, 7, 8, 11, 12, 13]:
-                    self.__event(button_id=button_id, button_type=button_type, value=value)
-                event = _file.read(Controller.EVENT_SIZE)
+        while not self.stop:
+            try:
+                _file = open(self.interface, "rb")
+                event = read_events()
+                while event:
+                    (tv_sec, value, button_type, button_id) = struct.unpack("LhBB", event)
+                    if button_id not in [6, 7, 8, 11, 12, 13]:
+                        self.__event(button_id=button_id, button_type=button_type, value=value)
+                    event = read_events()
+            except KeyboardInterrupt:
+                print("Exiting (Ctrl + C)")
 
     def __event(self, button_id, button_type, value):
 
@@ -206,11 +214,11 @@ class Controller(Actions):
         def square_released():
             return button_id == 0 and button_type == 1 and value == 0
 
-        def start_pressed():
-            return button_id == 9 and button_type == 2 and value == 1
+        def options_pressed():
+            return button_id == 9 and button_type == 1 and value == 1
 
-        def start_released():
-            return button_id == 9 and button_type == 2 and value == 0
+        def options_released():
+            return button_id == 9 and button_type == 1 and value == 0
 
         def L1_pressed():
             return button_id == 4 and button_type == 1 and value == 1
@@ -225,40 +233,40 @@ class Controller(Actions):
             return button_id == 4 and button_type == 1 and value == 0
 
         def L2_pressed():
-            return button_id == 3 and button_type == 2 and value == 1
+            return button_id == 3 and button_type == 2 and (32767 >= value >= -32766)
 
         def L2_released():
-            return button_id == 3 and button_type == 2 and value == 0
+            return button_id == 3 and button_type == 2 and value == -32767
 
         def R2_pressed():
-            return button_id == 4 and button_type == 2 and value == 1
+            return button_id == 4 and button_type == 2 and (32767 >= value >= -32766)
 
         def R2_released():
-            return button_id == 4 and button_type == 2 and value == 0
+            return button_id == 4 and button_type == 2 and value == -32767
 
         def up_arrow_press():
-            return button_id == 10 and button_type == 1 and value < 0
+            return button_id == 10 and button_type == 2 and value < 0
 
         def up_arrow_release():
-            return button_id == 10 and button_type == 1 and value == 0
+            return button_id == 10 and button_type == 2 and value == 0
 
         def down_arrow_press():
-            return button_id == 10 and button_type == 1 and value > 0
+            return button_id == 10 and button_type == 2 and value > 0
 
         def down_arrow_release():
-            return button_id == 10 and button_type == 1 and value == 0
+            return button_id == 10 and button_type == 2 and value == 0
 
         def left_arrow_press():
-            return button_id == 9 and button_type == 1 and value < 0
+            return button_id == 9 and button_type == 2 and value < 0
 
         def left_arrow_release():
-            return button_id == 9 and button_type == 1 and value == 0
+            return button_id == 9 and button_type == 2 and value == 0
 
         def right_arrow_press():
-            return button_id == 9 and button_type == 1 and value > 0
+            return button_id == 9 and button_type == 2 and value > 0
 
         def right_arrow_release():
-            return button_id == 9 and button_type == 1 and value == 0
+            return button_id == 9 and button_type == 2 and value == 0
 
         if R3_event():
             if R3_at_rest():
@@ -314,10 +322,10 @@ class Controller(Actions):
             self.on_R2_press(value)
         elif R2_released():
             self.on_R2_release()
-        elif start_pressed():
-            self.on_start_press()
-        elif start_released():
-            self.on_start_release()
+        elif options_pressed():
+            self.on_options_press()
+        elif options_released():
+            self.on_options_release()
         elif left_arrow_press():
             self.on_left_arrow_press()
         elif left_arrow_release():
