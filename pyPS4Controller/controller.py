@@ -61,25 +61,19 @@ class Actions:
     def on_up_arrow_press(self):
         pass
 
-    def on_up_arrow_release(self):
+    def on_up_down_arrow_release(self):
         pass
 
     def on_down_arrow_press(self):
         pass
 
-    def on_down_arrow_release(self):
-        pass
-
     def on_left_arrow_press(self):
         pass
 
-    def on_left_arrow_release(self):
+    def on_left_right_arrow_release(self):
         pass
 
     def on_right_arrow_press(self):
-        pass
-
-    def on_right_arrow_release(self):
         pass
 
     def on_L3_up(self, value):
@@ -138,7 +132,8 @@ class Controller(Actions):
             try:
                 return _file.read(Controller.EVENT_SIZE)
             except IOError:
-                print("Device not found / disconnected.")
+                print("Device not found / disconnected. Exiting.")
+                exit(1)
 
         while not self.stop:
             try:
@@ -151,14 +146,13 @@ class Controller(Actions):
                     event = read_events()
             except KeyboardInterrupt:
                 print("Exiting (Ctrl + C)")
+                exit(1)
 
     def __event(self, button_id, button_type, value):
 
+        # L joystick group #
         def L3_event():
             return button_type == 2 and button_id in [1, 0]
-
-        def R3_event():
-            return button_type == 2 and button_id in [5, 2]
 
         def L3_at_rest():
             return button_id in [1, 0] and value == 0
@@ -175,6 +169,10 @@ class Controller(Actions):
         def L3_right():
             return button_id == 0 and value > 0
 
+        # R joystick group #
+        def R3_event():
+            return button_type == 2 and button_id in [5, 2]
+
         def R3_at_rest():
             return button_id in [2, 5] and value == 0
 
@@ -190,6 +188,7 @@ class Controller(Actions):
         def R3_right():
             return button_id == 2 and value > 0
 
+        # Square / Triangle / Circle / X Button group #
         def circle_pressed():
             return button_id == 2 and button_type == 1 and value == 1
 
@@ -220,6 +219,7 @@ class Controller(Actions):
         def options_released():
             return button_id == 9 and button_type == 1 and value == 0
 
+        # N1 group #
         def L1_pressed():
             return button_id == 4 and button_type == 1 and value == 1
 
@@ -232,6 +232,7 @@ class Controller(Actions):
         def R1_released():
             return button_id == 4 and button_type == 1 and value == 0
 
+        # N2 group #
         def L2_pressed():
             return button_id == 3 and button_type == 2 and (32767 >= value >= -32766)
 
@@ -244,28 +245,30 @@ class Controller(Actions):
         def R2_released():
             return button_id == 4 and button_type == 2 and value == -32767
 
+        # up / down arrows #
         def up_arrow_press():
-            return button_id == 10 and button_type == 2 and value < 0
-
-        def up_arrow_release():
-            return button_id == 10 and button_type == 2 and value == 0
+            return button_id == 10 and button_type == 2 and value == -32767
 
         def down_arrow_press():
-            return button_id == 10 and button_type == 2 and value > 0
+            return button_id == 10 and button_type == 2 and value == 32767
 
-        def down_arrow_release():
+        def up_down_arrow_release():
+            # arrow buttons on release are not distinguishable and if you think about it,
+            # they are following same principle as the joystick buttons which only have 1
+            # state at rest which is shared between left/ right / up /down inputs
             return button_id == 10 and button_type == 2 and value == 0
 
+        # left / right arrows #
         def left_arrow_press():
-            return button_id == 9 and button_type == 2 and value < 0
-
-        def left_arrow_release():
-            return button_id == 9 and button_type == 2 and value == 0
+            return button_id == 9 and button_type == 2 and value == -32767
 
         def right_arrow_press():
-            return button_id == 9 and button_type == 2 and value > 0
+            return button_id == 9 and button_type == 2 and value == 32767
 
-        def right_arrow_release():
+        def left_right_arrow_release():
+            # arrow buttons on release are not distinguishable and if you think about it,
+            # they are following same principle as the joystick buttons which only have 1
+            # state at rest which is shared between left/ right / up /down inputs
             return button_id == 9 and button_type == 2 and value == 0
 
         if R3_event():
@@ -326,19 +329,15 @@ class Controller(Actions):
             self.on_options_press()
         elif options_released():
             self.on_options_release()
+        elif left_right_arrow_release():
+            self.on_left_right_arrow_release()
+        elif up_down_arrow_release():
+            self.on_up_down_arrow_release()
         elif left_arrow_press():
             self.on_left_arrow_press()
-        elif left_arrow_release():
-            self.on_left_arrow_release()
         elif right_arrow_press():
             self.on_right_arrow_press()
-        elif right_arrow_release():
-            self.on_right_arrow_release()
         elif up_arrow_press():
             self.on_up_arrow_press()
-        elif up_arrow_release():
-            self.on_up_arrow_release()
         elif down_arrow_press():
             self.on_down_arrow_press()
-        elif down_arrow_release():
-            self.on_down_arrow_release()
