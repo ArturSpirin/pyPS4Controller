@@ -114,5 +114,5 @@ See detailed instructions [here](https://github.com/macunixs/dualshock4-pi)
 ## Known limitations at this time
 * L3/R3 button clicks are not detected
 * Mouse pad events and clicks are not detected
-* Share button clicks is not detected
-* PS button clicks is not detected
+* Share button clicks are not detected
+* PS button clicks are not detected
