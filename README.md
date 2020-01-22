@@ -4,6 +4,8 @@
 [![Downloads](https://pepy.tech/badge/pyPS4Controller)](https://pepy.tech/project/pyPS4Controller)
 ##
 
+![PS4 Controller](https://github.com/ArturSpirin/pyPS4Controller/blob/master/assets/ds4.jpg)
+
 pyPS4Controller is a light module designed to provide hooks for PS4 Controller using Python on Linux.
 
 ## Installation
