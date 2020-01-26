@@ -1,3 +1,5 @@
+import sys
+
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -5,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyPS4Controller",
-    version="1.0.5",
+    version="1.0.6",
     author="Artur Spirin",
     author_email="as.no.replies@gmail.com",
     description="Simple hooks for PS4 controller",
@@ -27,4 +29,11 @@ setuptools.setup(
         "Topic :: Utilities"
     ],
     keywords=["playstation", "ps4", "controller", "binding", "hooks"],
+    entry_points={
+          'console_scripts': [
+              'py2ps4c = pyPS4Controller.__main__:main'
+              if sys.version_info[0] < 3 else
+              'py3ps4c = pyPS4Controller.__main__:main',
+          ]
+    },
 )

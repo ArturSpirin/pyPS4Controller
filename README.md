@@ -130,10 +130,10 @@ class MyController(Controller):  # create a custom class for your controller and
         print("on_R3_release")
 
     def on_options_press(self):
-        print("on_start_press")
+        print("on_options_press")
 
     def on_options_release(self):
-        print("on_start_release")
+        print("on_options_release")
 
 
 # now make sure the controller is paired over the Bluetooth and turn on the listener
