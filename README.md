@@ -9,9 +9,24 @@
 pyPS4Controller is a light module designed to provide hooks for PS4 Controller using Python on Linux.
 
 ## Installation
-`pip install pyPS4Controller`
+`sudo pip install pyPS4Controller`
 
 ## Usage
+
+1. First, you have to make sure you can connect your PS4 controller with ds4drv. You can do it 1 of 2 ways.
+   * Manually by following [this instructions](https://github.com/macunixs/dualshock4-pi)
+   * Automatically by running `py3ps4c init` (if you are using python3) or `py2ps4c init` (if you are using python2) in your terminal.
+   
+2. (Optional) connect your controller directly to the computer's Bluetooth module. 
+       Once successful, disconnect the controller. If you don't do this, in the next step you may see this error: 
+       `Unable to connect to detected device: Failed to set operational mode: [Errno 107] Transport endpoint is not connected`
+3. Now start `sudo ds4drv` and press `SHARE` + `PS4` button on your controller. If pairing fails, you want
+to try in again, it should eventually connect.
+4. Copy the code bellow to a file, say `test.py`
+5. Run it `python test.py`
+6. Use your controller.
+7. Adjust logic in the code and integrate it with your RC needs!
+
 ```python
 from pyPS4Controller.controller import Controller
 
@@ -139,9 +154,6 @@ class MyController(Controller):  # create a custom class for your controller and
 # now make sure the controller is paired over the Bluetooth and turn on the listener
 MyController(interface="/dev/input/js0").listen()
 ```
-
-## Pair PS4 Controller with the Raspberry Pi
-See detailed instructions [here](https://github.com/macunixs/dualshock4-pi)
 
 
 ## Known limitations at this time
