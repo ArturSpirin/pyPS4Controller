@@ -7,12 +7,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyPS4Controller",
-    version="1.0.7",
+    version="1.0.8",
     author="Artur Spirin",
     author_email="as.no.replies@gmail.com",
     description="Simple hooks for PS4 controller",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    url="https://github.com/ArturSpirin/pyPS4Controller",
     packages=setuptools.find_packages(),
     classifiers=[
         "Intended Audience :: Developers",
