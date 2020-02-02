@@ -274,15 +274,21 @@ class Controller(Actions):
 
         # up / down arrows #
         def up_arrow_press():
+            if self.via_bluetoothctl:
+                return button_id == 7 and button_type == 2 and value == -32767
             return button_id == 10 and button_type == 2 and value == -32767
 
         def down_arrow_press():
+            if self.via_bluetoothctl:
+                return button_id == 7 and button_type == 2 and value == 32767
             return button_id == 10 and button_type == 2 and value == 32767
 
         def up_down_arrow_release():
             # arrow buttons on release are not distinguishable and if you think about it,
             # they are following same principle as the joystick buttons which only have 1
             # state at rest which is shared between left/ right / up /down inputs
+            if self.via_bluetoothctl:
+                return button_id == 7 and button_type == 2 and value == 0
             return button_id == 10 and button_type == 2 and value == 0
 
         # left / right arrows #
@@ -296,6 +302,8 @@ class Controller(Actions):
             # arrow buttons on release are not distinguishable and if you think about it,
             # they are following same principle as the joystick buttons which only have 1
             # state at rest which is shared between left/ right / up /down inputs
+            if self.via_bluetoothctl:
+                return button_id == 6 and button_type == 2 and value == 0
             return button_id == 9 and button_type == 2 and value == 0
 
         if R3_event():
