@@ -174,34 +174,22 @@ class Controller(Actions):
 
         # R joystick group #
         def R3_event():
-            if self.via_bluetoothctl:
-                return button_type == 2 and button_id in [4, 3]
-            return button_type == 2 and button_id in [5, 2]
+            return button_type == 2 and button_id in [5, 2] if not self.via_bluetoothctl else [4, 3]
 
         def R3_at_rest():
-            if self.via_bluetoothctl:
-                return button_id == 4 and button_type == 2 and value == -32767
-            return button_id in [2, 5] and value == 0
+            return button_id in [2, 5] if not self.via_bluetoothctl else [4, 3] and value == 0
 
         def R3_up():
-            if self.via_bluetoothctl:
-                return button_id == 4 and button_type == 2 and (value >= -32766)
-            return button_id == 5 and value < 0
+            return button_id == 5 if not self.via_bluetoothctl else 4 and value < 0
 
         def R3_down():
-            if self.via_bluetoothctl:
-                return button_id == 4 and button_type == 2 and (32767 >= value)
-            return button_id == 5 and value > 0
+            return button_id == 5 if not self.via_bluetoothctl else 4 and value > 0
 
         def R3_left():
-            if self.via_bluetoothctl:
-                return button_id == 3 and button_type == 2 and (value >= -32766)
-            return button_id == 2 and value < 0
+            return button_id == 2 if not self.via_bluetoothctl else 3 and value < 0
 
         def R3_right():
-            if self.via_bluetoothctl:
-                return button_id == 3 and button_type == 2 and (32767 >= value)
-            return button_id == 2 and value > 0
+            return button_id == 2 if not self.via_bluetoothctl else 3 and value > 0
 
         # Square / Triangle / Circle / X Button group #
         def circle_pressed():
@@ -249,16 +237,16 @@ class Controller(Actions):
 
         # N2 group #
         def L2_pressed():
-            return button_id == 3 if not self.via_bluetoothctl else 2 and button_type == 2 and (32767 >= value >= -32766)
+            return button_id == (3 if not self.via_bluetoothctl else 2) and button_type == 2 and (32767 >= value >= -32766)
 
         def L2_released():
-            return button_id == 3 if not self.via_bluetoothctl else 2 and button_type == 2 and value == -32767
+            return button_id == (3 if not self.via_bluetoothctl else 2) and button_type == 2 and value == -32767
 
         def R2_pressed():
-            return button_id == 4 if not self.via_bluetoothctl else 5 and button_type == 2 and (32767 >= value >= -32766)
+            return button_id == (4 if not self.via_bluetoothctl else 5) and button_type == 2 and (32767 >= value >= -32766)
 
         def R2_released():
-            return button_id == 4 if not self.via_bluetoothctl else 5 and button_type == 2 and value == -32767
+            return button_id == (4 if not self.via_bluetoothctl else 5) and button_type == 2 and value == -32767
 
         # up / down arrows #
         def up_arrow_press():
