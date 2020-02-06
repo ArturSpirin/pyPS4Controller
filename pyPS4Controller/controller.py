@@ -213,7 +213,7 @@ class Controller(Actions):
                         self.__handle_event(button_id=button_id, button_type=button_type, value=value)
                     event = read_events()
             except KeyboardInterrupt:
-                print("Exiting (Ctrl + C)")
+                print("\nExiting (Ctrl + C)")
                 exit(1)
 
     def __handle_event(self, button_id, button_type, value):
