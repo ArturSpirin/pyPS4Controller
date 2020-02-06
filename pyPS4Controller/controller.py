@@ -1,4 +1,6 @@
+import os
 import struct
+import time
 
 
 class Actions:
@@ -155,6 +157,7 @@ class Controller(Actions):
         """
         Initiate controller instance that is capable of listening to all events on specified input interface
         :param interface: STRING aka /dev/input/js0 or any other PS4 Duelshock controller interface.
+                          You can see all available interfaces with a command "ls -la /dev/input/"
         :param connecting_using_ds4drv: BOOLEAN. If you are connecting your controller using ds4drv, then leave it set
                                                  to True. Otherwise if you are connecting directly via directly via
                                                  bluetooth/bluetoothctl, set it to False otherwise the controller
@@ -171,15 +174,33 @@ class Controller(Actions):
             # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
             self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
 
-    def listen(self):
+    def listen(self, timeout=30):
+        """
+        Start listening for events on a given self.interface
+        :param timeout: INT, seconds. How long you want to wait for the self.interface.
+                        This allows you to start listening and connect your controller after the fact.
+                        If self.interface does not become available in N seconds, the script will exit with exit code 1.
+        :return: None
+        """
+
+        def wait_for_interface():
+            print("Waiting for interface: {} to become available . . .".format(self.interface))
+            for i in range(timeout):
+                if os.path.exists(self.interface):
+                    print("Successfully bound to: {}.".format(self.interface))
+                    return
+                time.sleep(1)
+            print("Timeout({} sec). Interface not available.".format(timeout))
+            exit(1)
 
         def read_events():
             try:
                 return _file.read(Controller.EVENT_SIZE)
             except IOError:
-                print("Device not found / disconnected. Exiting.")
+                print("Interface lost. Device disconnected?")
                 exit(1)
 
+        wait_for_interface()
         while not self.stop:
             try:
                 _file = open(self.interface, "rb")
@@ -187,15 +208,15 @@ class Controller(Actions):
                 while event:
                     (tv_sec, value, button_type, button_id) = struct.unpack("LhBB", event)
                     if self.debug:
-                        print("value: {} button_type: {} button_id: {}".format(value, button_type, button_id))
+                        print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
                     if button_id not in self.black_listed_buttons:
-                        self.__event(button_id=button_id, button_type=button_type, value=value)
+                        self.__handle_event(button_id=button_id, button_type=button_type, value=value)
                     event = read_events()
             except KeyboardInterrupt:
                 print("Exiting (Ctrl + C)")
                 exit(1)
 
-    def __event(self, button_id, button_type, value):
+    def __handle_event(self, button_id, button_type, value):
 
         # L joystick group #
         def L3_event():  # L3 has the same mapping on ds4drv as it does when connecting  to bluetooth directly
