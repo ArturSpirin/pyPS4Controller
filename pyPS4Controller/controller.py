@@ -199,7 +199,7 @@ class Controller(Actions):
 
         # L joystick group #
         def L3_event():  # L3 has the same mapping on ds4drv as it does when connecting  to bluetooth directly
-            return button_type == 2 and button_id in [1, 0, 11]
+            return button_type == 2 and button_id in [1, 0]
 
         def L3_at_rest():
             return button_id in [1, 0] and value == 0
@@ -229,7 +229,7 @@ class Controller(Actions):
         # R joystick group #
         def R3_event():
             if not self.connecting_using_ds4drv:
-                return button_type == 2 and button_id in [4, 3, 12]
+                return button_type == 2 and button_id in [4, 3]
             return button_type == 2 and button_id in [5, 2]
 
         def R3_at_rest():
@@ -401,10 +401,6 @@ class Controller(Actions):
                 self.on_R3_up(value)
             elif R3_down():
                 self.on_R3_down(value)
-            elif R3_pressed():
-                self.on_R3_press()
-            elif R3_released():
-                self.on_R3_release()
         elif L3_event():
             if L3_at_rest():
                 self.on_L3_at_rest()
@@ -416,10 +412,6 @@ class Controller(Actions):
                 self.on_L3_left(value)
             elif L3_right():
                 self.on_L3_right(value)
-            elif L3_pressed():
-                self.on_L3_press()
-            elif L3_released():
-                self.on_L3_release()
         elif circle_pressed():
             self.on_circle_press()
         elif circle_released():
@@ -476,3 +468,11 @@ class Controller(Actions):
             self.on_share_press()
         elif share_released():
             self.on_share_release()
+        elif R3_pressed():
+            self.on_R3_press()
+        elif R3_released():
+            self.on_R3_release()
+        elif L3_pressed():
+            self.on_L3_press()
+        elif L3_released():
+            self.on_L3_release()
