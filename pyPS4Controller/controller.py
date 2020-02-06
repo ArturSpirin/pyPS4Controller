@@ -91,15 +91,15 @@ class Actions:
         print("on_L3_right: {}".format(value))
 
     def on_L3_at_rest(self):
-        """R3 joystick is at rest after the joystick was moved and let go off"""
+        """L3 joystick is at rest after the joystick was moved and let go off"""
         print("on_L3_at_rest")
 
     def on_L3_press(self):
-        """R3 joystick is clicked"""
+        """L3 joystick is clicked. This event is only detected when connecting without ds4drv"""
         print("on_L3_press")
 
     def on_L3_release(self):
-        """R3 joystick is released after the click"""
+        """L3 joystick is released after the click. This event is only detected when connecting without ds4drv"""
         print("on_L3_release")
 
     def on_R3_up(self, value):

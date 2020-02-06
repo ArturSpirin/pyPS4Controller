@@ -85,22 +85,22 @@ on_L3_up
 on_L3_down
 on_L3_left
 on_L3_right
-on_L3_at_rest
-on_L3_press
-on_L3_release
+on_L3_at_rest  # L3 joystick is at rest after the joystick was moved and let go off
+on_L3_press  # L3 joystick is clicked. This event is only detected when connecting without ds4drv
+on_L3_release  # L3 joystick is released after the click. This event is only detected when connecting without ds4drv
 on_R3_up
 on_R3_down
 on_R3_left
 on_R3_right
-on_R3_at_rest
-on_R3_press
-on_R3_release
+on_R3_at_rest  # R3 joystick is at rest after the joystick was moved and let go off
+on_R3_press  # R3 joystick is clicked. This event is only detected when connecting without ds4drv
+on_R3_release  # R3 joystick is released after the click. This event is only detected when connecting without ds4drv
 on_options_press
 on_options_release
-on_share_press
-on_share_release
-on_playstation_button_press
-on_playstation_button_release
+on_share_press  # this event is only detected when connecting without ds4drv
+on_share_release  # this event is only detected when connecting without ds4drv
+on_playstation_button_press  # this event is only detected when connecting without ds4drv
+on_playstation_button_release  # this event is only detected when connecting without ds4drv
 ```
 
 # Why ds4drv is not recommended?
