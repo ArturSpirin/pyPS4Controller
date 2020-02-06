@@ -41,7 +41,7 @@ class Actions:
         print("on_L1_release")
 
     def on_L2_press(self, value):
-        print("on_L2_press")
+        print("on_L2_press: {}".format(value))
 
     def on_L2_release(self):
         print("on_L2_release")
@@ -53,7 +53,7 @@ class Actions:
         print("on_R1_release")
 
     def on_R2_press(self, value):
-        print("on_R2_press")
+        print("on_R2_press: {}".format(value))
 
     def on_R2_release(self):
         print("on_R2_release")
@@ -77,16 +77,16 @@ class Actions:
         print("on_right_arrow_press")
 
     def on_L3_up(self, value):
-        print("on_L3_up")
+        print("on_L3_up: {}".format(value))
 
     def on_L3_down(self, value):
-        print("on_L3_down")
+        print("on_L3_down: {}".format(value))
 
     def on_L3_left(self, value):
-        print("on_L3_left")
+        print("on_L3_left: {}".format(value))
 
     def on_L3_right(self, value):
-        print("on_L3_right")
+        print("on_L3_right: {}".format(value))
 
     def on_L3_at_rest(self):
         """R3 joystick is at rest after the joystick was moved and let go off"""
@@ -101,16 +101,16 @@ class Actions:
         print("on_L3_release")
 
     def on_R3_up(self, value):
-        print("on_R3_up")
+        print("on_R3_up: {}".format(value))
 
     def on_R3_down(self, value):
-        print("on_R3_down")
+        print("on_R3_down: {}".format(value))
 
     def on_R3_left(self, value):
-        print("on_R3_left")
+        print("on_R3_left: {}".format(value))
 
     def on_R3_right(self, value):
-        print("on_R3_right")
+        print("on_R3_right: {}".format(value))
 
     def on_R3_at_rest(self):
         """R3 joystick is at rest after the joystick was moved and let go off"""
