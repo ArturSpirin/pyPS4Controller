@@ -79,7 +79,7 @@ class MyController(Controller):  # create a custom class for your controller and
         print("on_L1_release")
 
     def on_L2_press(self, value):
-        print("on_L2_press: ", value)
+        print("on_L2_press")
 
     def on_L2_release(self):
         print("on_L2_release")
@@ -91,7 +91,7 @@ class MyController(Controller):  # create a custom class for your controller and
         print("on_R1_release")
 
     def on_R2_press(self, value):
-        print("on_R2_press: ", value)
+        print("on_R2_press")
 
     def on_R2_release(self):
         print("on_R2_release")
@@ -115,33 +115,51 @@ class MyController(Controller):  # create a custom class for your controller and
         print("on_right_arrow_press")
 
     def on_L3_up(self, value):
-        print("on_L3_up: ", value)
-    
+        print("on_L3_up")
+
     def on_L3_down(self, value):
-        print("on_L3_down: ", value)
+        print("on_L3_down")
 
     def on_L3_left(self, value):
-        print("on_L3_left: ", value)
+        print("on_L3_left")
 
     def on_L3_right(self, value):
-        print("on_L3_right: ", value)
+        print("on_L3_right")
+
+    def on_L3_at_rest(self):
+        """R3 joystick is at rest after the joystick was moved and let go off"""
+        print("on_L3_at_rest")
+
+    def on_L3_press(self):
+        """R3 joystick is clicked"""
+        print("on_L3_press")
 
     def on_L3_release(self):
+        """R3 joystick is released after the click"""
         print("on_L3_release")
 
     def on_R3_up(self, value):
-        print("on_R3_up: ", value)
+        print("on_R3_up")
 
     def on_R3_down(self, value):
-        print("on_R3_down: ", value)
+        print("on_R3_down")
 
     def on_R3_left(self, value):
-        print("on_R3_left: ", value)
+        print("on_R3_left")
 
     def on_R3_right(self, value):
-        print("on_R3_right: ", value)
+        print("on_R3_right")
+
+    def on_R3_at_rest(self):
+        """R3 joystick is at rest after the joystick was moved and let go off"""
+        print("on_R3_at_rest")
+
+    def on_R3_press(self):
+        """R3 joystick is clicked. This event is only detected when connecting without ds4drv"""
+        print("on_R3_press")
 
     def on_R3_release(self):
+        """R3 joystick is released after the click. This event is only detected when connecting without ds4drv"""
         print("on_R3_release")
 
     def on_options_press(self):
@@ -149,6 +167,22 @@ class MyController(Controller):  # create a custom class for your controller and
 
     def on_options_release(self):
         print("on_options_release")
+
+    def on_share_press(self):
+        """this event is only detected when connecting without ds4drv"""
+        print("on_share_press")
+
+    def on_share_release(self):
+        """this event is only detected when connecting without ds4drv"""
+        print("on_share_release")
+
+    def on_playstation_button_press(self):
+        """this event is only detected when connecting without ds4drv"""
+        print("on_playstation_button_press")
+
+    def on_playstation_button_release(self):
+        """this event is only detected when connecting without ds4drv"""
+        print("on_playstation_button_release")
 
 
 # now make sure the controller is paired over the Bluetooth and turn on the listener
