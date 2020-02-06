@@ -54,7 +54,8 @@ Lets say you want print "Hello world" on X press and "Goodbye world" on X releas
            print("Goodbye world")
    
     controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
-    controller.listen()
+   # you can start listening before controller is paired, as long as you pair it within the timeout window
+    controller.listen(timeout=60)
     ```
    
 Here is a list of all the events you can override in a similar manner:
