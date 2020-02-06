@@ -165,7 +165,11 @@ class Controller(Actions):
         self.interface = interface
         self.connecting_using_ds4drv = connecting_using_ds4drv
         self.debug = False  # If you want to see raw event stream, set this to True.
-        self.black_listed_buttons = [6, 7, 8, 11, 12, 13]  # set a list of blocked buttons
+        self.black_listed_buttons = []  # set a list of blocked buttons if you dont want to process their events
+        if self.connecting_using_ds4drv:
+            # when device is connected via ds4drv its sending hundreds of events for those button IDs
+            # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
+            self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
 
     def listen(self):
 
