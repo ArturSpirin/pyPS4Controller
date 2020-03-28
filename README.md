@@ -129,5 +129,55 @@ how to do it or you can follow the steps bellow:
 3. Now start `sudo ds4drv` and press `SHARE` + `PS4` button on your controller. If pairing fails, you want
 to try in again, it should eventually connect.
 
+# Overloading event detection
+If default button mapping is off (see issue #1), you may want to try to overload 
+the event detection for those buttons. In order to do that you will need to know 3 pieces of information
+- button id
+- button type
+- value the button carries
+
+All of that info you can acquire by turning on debug mode and pressing buttons on the controller to acquire the info above. 
+Here is an example on how to do it.
+
+```python
+from pyPS4Controller.controller import Controller, Event
+    
+    
+class MyController(Controller):
+
+    def __init__(self, **kwargs):
+        Controller.__init__(self, **kwargs)
+
+    def on_x_press(self):
+       print("Hello world")
+
+    def on_x_release(self):
+       print("Goodbye world")
+
+
+class MyEventDefinition(Event):
+
+    def __init__(self, **kwargs):
+        Event.__init__(self, **kwargs)
+    
+    # each overloaded function, has access to:
+    # - self.button_id
+    # - self.button_type
+    # - self.value
+    # use those variables to determine which button is being pressed
+    def x_pressed(self):
+        return self.button_id == 0 and self.button_type == 1 and self.value == 1
+
+    def x_released(self):
+        return self.button_id == 0 and self.button_type == 1 and self.value == 0
+
+controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False, event_definition=MyEventDefinition)
+controller.debug = True  # you will see raw data stream for any button press, even if that button is not mapped
+# you can start listening before controller is paired, as long as you pair it within the timeout window
+controller.listen(timeout=60)
+
+``` 
+
 ## Known limitations at this time
 * Mouse pad events and clicks are not detected
+* Sensor information (accelerometers and/or gyro) is not detected
