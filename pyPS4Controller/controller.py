@@ -83,29 +83,29 @@ class Event:
         return False  # cant identify this event when connected through ds4drv
 
     # Square / Triangle / Circle / X Button group #
-    def circle_pressed(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 1
-
-    def circle_released(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 0
-
     def x_pressed(self):
-        return self.button_id == 1 and self.button_type == 1 and self.value == 1
+        return self.button_id == 0 and self.button_type == 1 and self.value == 1
 
     def x_released(self):
+        return self.button_id == 0 and self.button_type == 1 and self.value == 0
+
+    def circle_pressed(self):
+        return self.button_id == 1 and self.button_type == 1 and self.value == 1
+
+    def circle_released(self):
         return self.button_id == 1 and self.button_type == 1 and self.value == 0
 
     def triangle_pressed(self):
-        return self.button_id == 3 and self.button_type == 1 and self.value == 1
+        return self.button_id == 2 and self.button_type == 1 and self.value == 1
 
     def triangle_released(self):
-        return self.button_id == 3 and self.button_type == 1 and self.value == 0
+        return self.button_id == 2 and self.button_type == 1 and self.value == 0
 
     def square_pressed(self):
-        return self.button_id == 0 and self.button_type == 1 and self.value == 1
+        return self.button_id == 3 and self.button_type == 1 and self.value == 1
 
     def square_released(self):
-        return self.button_id == 0 and self.button_type == 1 and self.value == 0
+        return self.button_id == 3 and self.button_type == 1 and self.value == 0
 
     def options_pressed(self):
         return self.button_id == 9 and self.button_type == 1 and self.value == 1
