@@ -178,6 +178,35 @@ controller.listen(timeout=60)
 
 ``` 
 
+# Registering Callbacks
+From version 1.1.9 its possible to bound callbacks to the `listen` function.
+Two call back functions can be registered: `on_connect` & `on_disconnect`
+Here is an example how to do it.
+```python
+from pyPS4Controller.controller import Controller
+
+
+def connect():
+    # any code you want to run during initial connection with the controller
+    pass
+
+def disconnect():
+    # any code you want to run during loss of connection with the controller or keyboard interrupt
+    pass
+
+
+
+class MyController(Controller):
+
+    def __init__(self, **kwargs):
+        Controller.__init__(self, **kwargs)
+
+
+controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
+controller.listen(on_connect=connect, on_disconnect=disconnect)
+```
+
+
 ## Known limitations at this time
 * Mouse pad events and clicks are not detected
 * Sensor information (accelerometers and/or gyro) is not detected

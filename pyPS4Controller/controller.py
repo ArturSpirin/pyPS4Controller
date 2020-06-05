@@ -368,6 +368,7 @@ class Controller(Actions):
         """
         Actions.__init__(self)
         self.stop = False
+        self.is_connected = False
         self.interface = interface
         self.connecting_using_ds4drv = connecting_using_ds4drv
         self.debug = False  # If you want to see raw event stream, set this to True.
@@ -378,20 +379,32 @@ class Controller(Actions):
             self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
         self.event_definition = event_definition if event_definition else Event
 
-    def listen(self, timeout=30):
+    def listen(self, timeout=30, on_connect=None, on_disconnect=None):
         """
         Start listening for events on a given self.interface
         :param timeout: INT, seconds. How long you want to wait for the self.interface.
                         This allows you to start listening and connect your controller after the fact.
                         If self.interface does not become available in N seconds, the script will exit with exit code 1.
+        :param on_connect: function object, allows to register a call back when connection is established
+        :param on_disconnect: function object, allows to register a call back when connection is lost
         :return: None
         """
+        def on_disconnect_callback():
+            self.is_connected = False
+            if on_disconnect is not None:
+                on_disconnect()
+
+        def on_connect_callback():
+            self.is_connected = True
+            if on_connect is not None:
+                on_connect()
 
         def wait_for_interface():
             print("Waiting for interface: {} to become available . . .".format(self.interface))
             for i in range(timeout):
                 if os.path.exists(self.interface):
                     print("Successfully bound to: {}.".format(self.interface))
+                    on_connect_callback()
                     return
                 time.sleep(1)
             print("Timeout({} sec). Interface not available.".format(timeout))
@@ -402,6 +415,7 @@ class Controller(Actions):
                 return _file.read(Controller.EVENT_SIZE)
             except IOError:
                 print("Interface lost. Device disconnected?")
+                on_disconnect_callback()
                 exit(1)
 
         wait_for_interface()
@@ -418,6 +432,7 @@ class Controller(Actions):
                     event = read_events()
             except KeyboardInterrupt:
                 print("\nExiting (Ctrl + C)")
+                on_disconnect_callback()
                 exit(1)
 
     def __handle_event(self, button_id, button_type, value):
