@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyPS4Controller",
-    version="1.1.9",
+    version="1.2.0",
     author="Artur Spirin",
     author_email="as.no.replies@gmail.com",
     description="Simple hooks for PS4 controller",

@@ -357,7 +357,7 @@ class Controller(Actions):
     def __init__(
             self, interface, connecting_using_ds4drv=True,
             event_definition=None, event_format=None
-        ):
+                ):
         """
         Initiate controller instance that is capable of listening to all events on specified input interface
         :param interface: STRING aka /dev/input/js0 or any other PS4 Duelshock controller interface.

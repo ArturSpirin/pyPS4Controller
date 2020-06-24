@@ -130,7 +130,7 @@ how to do it or you can follow the steps bellow:
 to try in again, it should eventually connect.
 
 # Overloading event detection
-If default button mapping is off (see issue #1), you may want to try to overload 
+If default button mapping is off (see issue [#1](https://github.com/ArturSpirin/pyPS4Controller/issues/1)), you may want to try to overload 
 the event detection for those buttons. In order to do that you will need to know 3 pieces of information
 - button id
 - button type
@@ -205,6 +205,23 @@ class MyController(Controller):
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
 controller.listen(on_connect=connect, on_disconnect=disconnect)
 ```
+
+
+# Overriding event format
+On some systems like Linux Mint, the event format may be different from the default `LhBB`. A symptom for which may be:
+1. Button mapping is off
+2. Need to press button twice to register the release event
+For more info see [#5](https://github.com/ArturSpirin/pyPS4Controller/issues/5)
+To address this issue it is now possible, from version 1.2.0, to override the default formal like so:
+```python
+...
+if __name__ == "__main__":
+    controller = Controller(
+        interface="/dev/input/js0",
+        event_format="3Bh2b"
+    )
+    controller.listen()
+``` 
 
 
 ## Known limitations at this time
