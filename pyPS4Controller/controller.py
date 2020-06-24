@@ -354,9 +354,10 @@ class Actions:
 
 class Controller(Actions):
 
-    EVENT_SIZE = struct.calcsize("LhBB")
-
-    def __init__(self, interface, connecting_using_ds4drv=True, event_definition=None):
+    def __init__(
+            self, interface, connecting_using_ds4drv=True,
+            event_definition=None, event_format=None
+        ):
         """
         Initiate controller instance that is capable of listening to all events on specified input interface
         :param interface: STRING aka /dev/input/js0 or any other PS4 Duelshock controller interface.
@@ -378,6 +379,8 @@ class Controller(Actions):
             # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
             self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
         self.event_definition = event_definition if event_definition else Event
+        self.event_format = event_format if event_format else "LhBB"
+        self.event_size = struct.calcsize(self.event_format)
 
     def listen(self, timeout=30, on_connect=None, on_disconnect=None):
         """
@@ -412,7 +415,7 @@ class Controller(Actions):
 
         def read_events():
             try:
-                return _file.read(Controller.EVENT_SIZE)
+                return _file.read(self.event_size)
             except IOError:
                 print("Interface lost. Device disconnected?")
                 on_disconnect_callback()
@@ -424,7 +427,7 @@ class Controller(Actions):
                 _file = open(self.interface, "rb")
                 event = read_events()
                 while event:
-                    (tv_sec, value, button_type, button_id) = struct.unpack("LhBB", event)
+                    (*tv_sec, value, button_type, button_id) = struct.unpack(self.event_format, event)
                     if self.debug:
                         print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
                     if button_id not in self.black_listed_buttons:
