@@ -422,21 +422,20 @@ class Controller(Actions):
                 exit(1)
 
         wait_for_interface()
-        while not self.stop:
-            try:
-                _file = open(self.interface, "rb")
+        try:
+            _file = open(self.interface, "rb")
+            event = read_events()
+            while not self.stop and event:
+                (*tv_sec, value, button_type, button_id) = struct.unpack(self.event_format, event)
+                if self.debug:
+                    print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
+                if button_id not in self.black_listed_buttons:
+                    self.__handle_event(button_id=button_id, button_type=button_type, value=value)
                 event = read_events()
-                while event:
-                    (*tv_sec, value, button_type, button_id) = struct.unpack(self.event_format, event)
-                    if self.debug:
-                        print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
-                    if button_id not in self.black_listed_buttons:
-                        self.__handle_event(button_id=button_id, button_type=button_type, value=value)
-                    event = read_events()
-            except KeyboardInterrupt:
-                print("\nExiting (Ctrl + C)")
-                on_disconnect_callback()
-                exit(1)
+        except KeyboardInterrupt:
+            print("\nExiting (Ctrl + C)")
+            on_disconnect_callback()
+            exit(1)
 
     def __handle_event(self, button_id, button_type, value):
 
