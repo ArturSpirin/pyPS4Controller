@@ -16,8 +16,11 @@ class Event:
     def L3_event(self):  # L3 has the same mapping on ds4drv as it does when connecting  to bluetooth directly
         return self.button_type == 2 and self.button_id in [1, 0]
 
-    def L3_at_rest(self):
-        return self.button_id in [1, 0] and self.value == 0
+    def L3_y_at_rest(self):
+        return self.button_id in [1] and self.value == 0
+
+    def L3_x_at_rest(self):
+        return self.button_id in [0] and self.value == 0
 
     def L3_up(self):
         return self.button_id == 1 and self.value < 0
@@ -47,10 +50,15 @@ class Event:
             return self.button_type == 2 and self.button_id in [4, 3]
         return self.button_type == 2 and self.button_id in [5, 2]
 
-    def R3_at_rest(self):
+    def R3_y_at_rest(self):
         if not self.connecting_using_ds4drv:
-            return self.button_id in [4, 3] and self.value == 0
-        return self.button_id in [2, 5] and self.value == 0
+            return self.button_id in [4] and self.value == 0
+        return self.button_id in [2] and self.value == 0
+
+    def R3_x_at_rest(self):
+        if not self.connecting_using_ds4drv:
+            return self.button_id in [3] and self.value == 0
+        return self.button_id in [5] and self.value == 0
 
     def R3_up(self):
         if not self.connecting_using_ds4drv:
@@ -293,9 +301,13 @@ class Actions:
     def on_L3_right(self, value):
         print("on_L3_right: {}".format(value))
 
-    def on_L3_at_rest(self):
+    def on_L3_y_at_rest(self):
         """L3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_L3_at_rest")
+        print("on_L3_y_at_rest")
+
+    def on_L3_x_at_rest(self):
+        """L3 joystick is at rest after the joystick was moved and let go off"""
+        print("on_L3_x_at_rest")
 
     def on_L3_press(self):
         """L3 joystick is clicked. This event is only detected when connecting without ds4drv"""
@@ -317,9 +329,13 @@ class Actions:
     def on_R3_right(self, value):
         print("on_R3_right: {}".format(value))
 
-    def on_R3_at_rest(self):
+    def on_R3_y_at_rest(self):
         """R3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_R3_at_rest")
+        print("on_R3_y_at_rest")
+
+    def on_R3_x_at_rest(self):
+        """R3 joystick is at rest after the joystick was moved and let go off"""
+        print("on_R3_x_at_rest")
 
     def on_R3_press(self):
         """R3 joystick is clicked. This event is only detected when connecting without ds4drv"""
@@ -445,8 +461,10 @@ class Controller(Actions):
                                       connecting_using_ds4drv=self.connecting_using_ds4drv)
 
         if event.R3_event():
-            if event.R3_at_rest():
-                self.on_R3_at_rest()
+            if event.R3_y_at_rest():
+                self.on_R3_y_at_rest()
+            elif event.R3_x_at_rest():
+                self.on_R3_x_at_rest()
             elif event.R3_right():
                 self.on_R3_right(value)
             elif event.R3_left():
@@ -456,8 +474,10 @@ class Controller(Actions):
             elif event.R3_down():
                 self.on_R3_down(value)
         elif event.L3_event():
-            if event.L3_at_rest():
-                self.on_L3_at_rest()
+            if event.L3_y_at_rest():
+                self.on_L3_y_at_rest()
+            elif event.L3_x_at_rest():
+                self.on_L3_x_at_rest()
             elif event.L3_up():
                 self.on_L3_up(value)
             elif event.L3_down():
