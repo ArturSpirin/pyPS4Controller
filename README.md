@@ -86,14 +86,16 @@ on_L3_up
 on_L3_down
 on_L3_left
 on_L3_right
-on_L3_at_rest  # L3 joystick is at rest after the joystick was moved and let go off
+on_L3_x_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on x axis
+on_L3_y_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on y axis
 on_L3_press  # L3 joystick is clicked. This event is only detected when connecting without ds4drv
 on_L3_release  # L3 joystick is released after the click. This event is only detected when connecting without ds4drv
 on_R3_up
 on_R3_down
 on_R3_left
 on_R3_right
-on_R3_at_rest  # R3 joystick is at rest after the joystick was moved and let go off
+on_R3_x_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on x axis
+on_R3_y_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on y axis
 on_R3_press  # R3 joystick is clicked. This event is only detected when connecting without ds4drv
 on_R3_release  # R3 joystick is released after the click. This event is only detected when connecting without ds4drv
 on_options_press
