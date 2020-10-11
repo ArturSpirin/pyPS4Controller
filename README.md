@@ -58,53 +58,95 @@ Lets say you want print "Hello world" on X press and "Goodbye world" on X releas
     controller.listen(timeout=60)
     ```
    
-Here is a list of all the events you can override in a similar manner:
-```
-on_x_press
-on_x_release
-on_triangle_press
-on_triangle_release
-on_circle_press
-on_circle_release
-on_square_press
-on_square_release
-on_L1_press
-on_L1_release
-on_L2_press
-on_L2_release
-on_R1_press
-on_R1_release
-on_R2_press
-on_R2_release
-on_up_arrow_press
-on_up_down_arrow_release
-on_down_arrow_press
-on_left_arrow_press
-on_left_right_arrow_release
-on_right_arrow_press
-on_L3_up
-on_L3_down
-on_L3_left
-on_L3_right
-on_L3_x_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on x axis
-on_L3_y_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on y axis
-on_L3_press  # L3 joystick is clicked. This event is only detected when connecting without ds4drv
-on_L3_release  # L3 joystick is released after the click. This event is only detected when connecting without ds4drv
-on_R3_up
-on_R3_down
-on_R3_left
-on_R3_right
-on_R3_x_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on x axis
-on_R3_y_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on y axis
-on_R3_press  # R3 joystick is clicked. This event is only detected when connecting without ds4drv
-on_R3_release  # R3 joystick is released after the click. This event is only detected when connecting without ds4drv
-on_options_press
-on_options_release
-on_share_press  # this event is only detected when connecting without ds4drv
-on_share_release  # this event is only detected when connecting without ds4drv
-on_playstation_button_press  # this event is only detected when connecting without ds4drv
-on_playstation_button_release  # this event is only detected when connecting without ds4drv
-```
+    Here is a list of all the events you can override in a similar manner:
+    ```
+    on_x_press
+    on_x_release
+    on_triangle_press
+    on_triangle_release
+    on_circle_press
+    on_circle_release
+    on_square_press
+    on_square_release
+    on_L1_press
+    on_L1_release
+    on_L2_press
+    on_L2_release
+    on_R1_press
+    on_R1_release
+    on_R2_press
+    on_R2_release
+    on_up_arrow_press
+    on_up_down_arrow_release
+    on_down_arrow_press
+    on_left_arrow_press
+    on_left_right_arrow_release
+    on_right_arrow_press
+    on_L3_up
+    on_L3_down
+    on_L3_left
+    on_L3_right
+    on_L3_x_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on x axis
+    on_L3_y_at_rest  # L3 joystick is at rest after the joystick was moved and let go off on y axis
+    on_L3_press  # L3 joystick is clicked. This event is only detected when connecting without ds4drv
+    on_L3_release  # L3 joystick is released after the click. This event is only detected when connecting without ds4drv
+    on_R3_up
+    on_R3_down
+    on_R3_left
+    on_R3_right
+    on_R3_x_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on x axis
+    on_R3_y_at_rest  # R3 joystick is at rest after the joystick was moved and let go off on y axis
+    on_R3_press  # R3 joystick is clicked. This event is only detected when connecting without ds4drv
+    on_R3_release  # R3 joystick is released after the click. This event is only detected when connecting without ds4drv
+    on_options_press
+    on_options_release
+    on_share_press  # this event is only detected when connecting without ds4drv
+    on_share_release  # this event is only detected when connecting without ds4drv
+    on_playstation_button_press  # this event is only detected when connecting without ds4drv
+    on_playstation_button_release  # this event is only detected when connecting without ds4drv
+    ```
+5. You can also register input sequences with a call back which will be invoked when you play those same inputs.
+   ```python
+   from pyPS4Controller.controller import Controller
+   
+   
+   def konami_callback():
+       print("Konami sequence detected!")
+
+
+   def special_inputs():
+       return [
+           {"inputs": ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'share', 'options'],
+            "callback": konami_callback}
+       ]
+
+
+   controller = Controller(interface="/dev/input/js0", connecting_using_ds4drv=False)
+   controller.listen(on_special_inputs=special_inputs())
+   ```
+   
+   Here is a list of all the inputs you can use:
+   ```
+   x
+   square
+   triangle
+   circle
+   up
+   down
+   left
+   right
+   L1
+   L2
+   L3
+   R1
+   R2
+   R3
+   left_joystick
+   right_joystick
+   share
+   options
+   ps
+   ```
 
 # Why ds4drv is not recommended?
 
