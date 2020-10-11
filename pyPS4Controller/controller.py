@@ -399,7 +399,7 @@ class Controller(Actions):
         self.event_size = struct.calcsize(self.event_format)
         self.event_history = []
 
-    def listen(self, timeout=30, on_connect=None, on_disconnect=None, on_special_inputs=None):
+    def listen(self, timeout=30, on_connect=None, on_disconnect=None, on_sequence=None):
         """
         Start listening for events on a given self.interface
         :param timeout: INT, seconds. How long you want to wait for the self.interface.
@@ -407,9 +407,10 @@ class Controller(Actions):
                         If self.interface does not become available in N seconds, the script will exit with exit code 1.
         :param on_connect: function object, allows to register a call back when connection is established
         :param on_disconnect: function object, allows to register a call back when connection is lost
-        :param on_special_inputs: list, allows to register a call back on specific input sequence.
-                                  e.g [{"inputs": ['up', 'up', 'down', 'down', 'left', 'right, 'left', 'right, 'start',
-                                  'options'], "callback": () -> None)}]
+        :param on_sequence: list, allows to register a call back on specific input sequence.
+                            e.g [{"inputs": ['up', 'up', 'down', 'down', 'left', 'right,
+                                             'left', 'right, 'start', 'options'],
+                                  "callback": () -> None)}]
         :return: None
         """
         def on_disconnect_callback():
@@ -449,16 +450,16 @@ class Controller(Actions):
         try:
             _file = open(self.interface, "rb")
             event = read_events()
-            if on_special_inputs is None:
-                on_special_inputs = []
-            special_inputs_indexes = [0] * len(on_special_inputs)
+            if on_sequence is None:
+                on_sequence = []
+            special_inputs_indexes = [0] * len(on_sequence)
             while not self.stop and event:
                 (*tv_sec, value, button_type, button_id) = struct.unpack(self.event_format, event)
                 if self.debug:
                     print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
                 if button_id not in self.black_listed_buttons:
                     self.__handle_event(button_id=button_id, button_type=button_type, value=value)
-                for i, special_input in enumerate(on_special_inputs):
+                for i, special_input in enumerate(on_sequence):
                     check = check_for(special_input["inputs"], self.event_history, special_inputs_indexes[i])
                     if len(check) != 0:
                         special_inputs_indexes[i] = check[0] + 1

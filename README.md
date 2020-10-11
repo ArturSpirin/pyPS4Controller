@@ -105,48 +105,6 @@ Lets say you want print "Hello world" on X press and "Goodbye world" on X releas
     on_playstation_button_press  # this event is only detected when connecting without ds4drv
     on_playstation_button_release  # this event is only detected when connecting without ds4drv
     ```
-5. You can also register input sequences with a call back which will be invoked when you play those same inputs.
-   ```python
-   from pyPS4Controller.controller import Controller
-   
-   
-   def konami_callback():
-       print("Konami sequence detected!")
-
-
-   def special_inputs():
-       return [
-           {"inputs": ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'share', 'options'],
-            "callback": konami_callback}
-       ]
-
-
-   controller = Controller(interface="/dev/input/js0", connecting_using_ds4drv=False)
-   controller.listen(on_special_inputs=special_inputs())
-   ```
-   
-   Here is a list of all the inputs you can use:
-   ```
-   x
-   square
-   triangle
-   circle
-   up
-   down
-   left
-   right
-   L1
-   L2
-   L3
-   R1
-   R2
-   R3
-   left_joystick
-   right_joystick
-   share
-   options
-   ps
-   ```
 
 # Why ds4drv is not recommended?
 
@@ -250,6 +208,50 @@ controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=Fa
 controller.listen(on_connect=connect, on_disconnect=disconnect)
 ```
 
+
+# Registering input sequences with a callback.
+   ```python
+   from pyPS4Controller.controller import Controller
+   
+   
+   def konami_callback():
+       print("Konami sequence detected!")
+
+
+   def my_sequences():
+       return [
+           {"inputs": ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'share', 'options'],
+            "callback": konami_callback}
+       ]
+
+
+   controller = Controller(interface="/dev/input/js0", connecting_using_ds4drv=False)
+   controller.listen(on_sequence=my_sequences())
+   ```
+   
+   List of all the inputs you can use:
+   ```
+   x
+   square
+   triangle
+   circle
+   up
+   down
+   left
+   right
+   L1
+   L2
+   L3
+   R1
+   R2
+   R3
+   left_joystick
+   right_joystick
+   share
+   options
+   ps
+   ```
+   
 
 # Overriding event format
 On some systems like Linux Mint, the event format may be different from the default `LhBB`. A symptom for which may be:
