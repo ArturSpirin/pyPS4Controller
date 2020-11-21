@@ -174,7 +174,7 @@ class MyEventDefinition(Event):
         return self.button_id == 0 and self.button_type == 1 and self.value == 0
 
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False, event_definition=MyEventDefinition)
-controller.debug = True  # you will see raw data stream for any button press, even if that button is not mapped
+controller.trace_raw_events = True  # you will see raw data stream for any button press, even if that button is not mapped
 # you can start listening before controller is paired, as long as you pair it within the timeout window
 controller.listen(timeout=60)
 
