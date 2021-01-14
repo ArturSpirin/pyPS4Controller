@@ -1,6 +1,6 @@
 
 
-class MappingLhBB:
+class DefaultMapping:
 
     def __init__(self, button_id, button_type, value, connecting_using_ds4drv, overflow=None, debug=False):
         """
@@ -16,8 +16,10 @@ class MappingLhBB:
         self.button_type = button_type
         self.value = value
         self.connecting_using_ds4drv = connecting_using_ds4drv
+        self.overflow = overflow
         if debug:
-            print("button_id: {} button_type: {} value: {}".format(self.button_id, self.button_type, self.value))
+            print("button_id: {} button_type: {} value: {} overflow: {}"
+                  .format(self.button_id, self.button_type, self.value, self.overflow))
 
     # L joystick group #
     def L3_event(self):  # L3 has the same mapping on ds4drv as it does when connecting  to bluetooth directly

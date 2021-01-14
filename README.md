@@ -142,7 +142,8 @@ All of that info you can acquire by turning on debug mode and pressing buttons o
 Here is an example on how to do it.
 
 ```python
-from pyPS4Controller.controller import Controller, Event
+from pyPS4Controller.controller import Controller
+from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
     
     
 class MyController(Controller):
@@ -157,15 +158,16 @@ class MyController(Controller):
        print("Goodbye world")
 
 
-class MyEventDefinition(Event):
+class MyEventDefinition(DefaultMapping):
 
     def __init__(self, **kwargs):
-        Event.__init__(self, **kwargs)
+        DefaultMapping.__init__(self, **kwargs)
     
     # each overloaded function, has access to:
     # - self.button_id
     # - self.button_type
     # - self.value
+    # - self.overflow
     # use those variables to determine which button is being pressed
     def x_pressed(self):
         return self.button_id == 0 and self.button_type == 1 and self.value == 1

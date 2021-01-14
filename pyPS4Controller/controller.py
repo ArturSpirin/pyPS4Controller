@@ -183,15 +183,15 @@ class Controller(Actions):
             # when device is connected via ds4drv its sending hundreds of events for those button IDs
             # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
             self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
-        self.event_format = event_format if event_format else "LhBB"
+        self.event_format = event_format if event_format else "3Bh2b"
 
         if event_definition is None:  # means it wasn't specified by user
-            if self.event_format == "3Bh2b":
+            if self.event_format == "LhBB":
+                from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
+                self.event_definition = DefaultMapping
+            else:
                 from pyPS4Controller.event_mapping.Mapping3Bh2b import Mapping3Bh2b
                 self.event_definition = Mapping3Bh2b
-            else:
-                from pyPS4Controller.event_mapping.MappingLhBB import MappingLhBB
-                self.event_definition = MappingLhBB
         else:
             self.event_definition = event_definition
 

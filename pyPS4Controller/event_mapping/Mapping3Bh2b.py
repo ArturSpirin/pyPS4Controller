@@ -1,7 +1,7 @@
-from pyPS4Controller.event_mapping.MappingLhBB import MappingLhBB
+from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
 
 
-class Mapping3Bh2b(MappingLhBB):
+class Mapping3Bh2b(DefaultMapping):
 
     def __init__(self, button_id, button_type, value, connecting_using_ds4drv, overflow, debug=False):
         """
@@ -17,9 +17,11 @@ class Mapping3Bh2b(MappingLhBB):
         self.button_type = overflow[1]
         self.value = overflow[0]
         self.connecting_using_ds4drv = connecting_using_ds4drv
-        MappingLhBB.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv)
+        self.overflow = overflow
         if debug:
-            print("button_id: {} button_type: {} value: {}".format(self.button_id, self.button_type, self.value))
+            print("button_id: {} button_type: {} value: {} overflow: {}"
+                  .format(self.button_id, self.button_type, self.value, self.overflow))
+        DefaultMapping.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv)
 
     # Square / Triangle / Circle / X Button group #
     def circle_pressed(self):
