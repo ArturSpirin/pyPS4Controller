@@ -17,7 +17,9 @@ class Mapping3Bh2b(MappingLhBB):
         self.button_type = overflow[1]
         self.value = overflow[0]
         self.connecting_using_ds4drv = connecting_using_ds4drv
-        MappingLhBB.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv, debug)
+        MappingLhBB.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv)
+        if debug:
+            print("button_id: {} button_type: {} value: {}".format(self.button_id, self.button_type, self.value))
 
     # Square / Triangle / Circle / X Button group #
     def circle_pressed(self):
