@@ -3,217 +3,6 @@ import struct
 import time
 
 
-class Event:
-
-    def __init__(self, button_id, button_type, value, connecting_using_ds4drv):
-
-        self.button_id = button_id
-        self.button_type = button_type
-        self.value = value
-        self.connecting_using_ds4drv = connecting_using_ds4drv
-
-    # L joystick group #
-    def L3_event(self):  # L3 has the same mapping on ds4drv as it does when connecting  to bluetooth directly
-        return self.button_type == 2 and self.button_id in [1, 0]
-
-    def L3_y_at_rest(self):
-        return self.button_id in [1] and self.value == 0
-
-    def L3_x_at_rest(self):
-        return self.button_id in [0] and self.value == 0
-
-    def L3_up(self):
-        return self.button_id == 1 and self.value < 0
-
-    def L3_down(self):
-        return self.button_id == 1 and self.value > 0
-
-    def L3_left(self):
-        return self.button_id == 0 and self.value < 0
-
-    def L3_right(self):
-        return self.button_id == 0 and self.value > 0
-
-    def L3_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 11 and self.button_type == 1 and self.value == 1
-        return False  # cant identify this event when connected through ds4drv
-
-    def L3_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 11 and self.button_type == 1 and self.value == 0
-        return False  # cant identify this event when connected through ds4drv
-
-    # R joystick group #
-    def R3_event(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_type == 2 and self.button_id in [4, 3]
-        return self.button_type == 2 and self.button_id in [5, 2]
-
-    def R3_y_at_rest(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id in [4] and self.value == 0
-        return self.button_id in [2] and self.value == 0
-
-    def R3_x_at_rest(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id in [3] and self.value == 0
-        return self.button_id in [5] and self.value == 0
-
-    def R3_up(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 4 and self.value < 0
-        return self.button_id == 5 and self.value < 0
-
-    def R3_down(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 4 and self.value > 0
-        return self.button_id == 5 and self.value > 0
-
-    def R3_left(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 3 and self.value < 0
-        return self.button_id == 2 and self.value < 0
-
-    def R3_right(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 3 and self.value > 0
-        return self.button_id == 2 and self.value > 0
-
-    def R3_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 12 and self.button_type == 1 and self.value == 1
-        return False  # cant identify this event when connected through ds4drv
-
-    def R3_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 12 and self.button_type == 1 and self.value == 0
-        return False  # cant identify this event when connected through ds4drv
-
-    # Square / Triangle / Circle / X Button group #
-    def circle_pressed(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 1
-
-    def circle_released(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 0
-
-    def x_pressed(self):
-        return self.button_id == 1 and self.button_type == 1 and self.value == 1
-
-    def x_released(self):
-        return self.button_id == 1 and self.button_type == 1 and self.value == 0
-
-    def triangle_pressed(self):
-        return self.button_id == 3 and self.button_type == 1 and self.value == 1
-
-    def triangle_released(self):
-        return self.button_id == 3 and self.button_type == 1 and self.value == 0
-
-    def square_pressed(self):
-        return self.button_id == 0 and self.button_type == 1 and self.value == 1
-
-    def square_released(self):
-        return self.button_id == 0 and self.button_type == 1 and self.value == 0
-
-    def options_pressed(self):
-        return self.button_id == 9 and self.button_type == 1 and self.value == 1
-
-    def options_released(self):
-        return self.button_id == 9 and self.button_type == 1 and self.value == 0
-
-    def share_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 8 and self.button_type == 1 and self.value == 1
-        return False  # cant identify this event when connected through ds4drv
-
-    def share_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 8 and self.button_type == 1 and self.value == 0
-        return False  # cant identify this event when connected through ds4drv
-
-    # N1 group #
-    def L1_pressed(self):
-        return self.button_id == 4 and self.button_type == 1 and self.value == 1
-
-    def L1_released(self):
-        return self.button_id == 4 and self.button_type == 1 and self.value == 0
-
-    def R1_pressed(self):
-        return self.button_id == 5 and self.button_type == 1 and self.value == 1
-
-    def R1_released(self):
-        return self.button_id == 5 and self.button_type == 1 and self.value == 0
-
-    # N2 group #
-    def L2_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 2 and self.button_type == 2 and (32767 >= self.value >= -32766)
-        return self.button_id == 3 and self.button_type == 2 and (32767 >= self.value >= -32766)
-
-    def L2_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 2 and self.button_type == 2 and self.value == -32767
-        return self.button_id == 3 and self.button_type == 2 and self.value == -32767
-
-    def R2_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 5 and self.button_type == 2 and (32767 >= self.value >= -32766)
-        return self.button_id == 4 and self.button_type == 2 and (32767 >= self.value >= -32766)
-
-    def R2_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 5 and self.button_type == 2 and self.value == -32767
-        return self.button_id == 4 and self.button_type == 2 and self.value == -32767
-
-    # up / down arrows #
-    def up_arrow_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 7 and self.button_type == 2 and self.value == -32767
-        return self.button_id == 10 and self.button_type == 2 and self.value == -32767
-
-    def down_arrow_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 7 and self.button_type == 2 and self.value == 32767
-        return self.button_id == 10 and self.button_type == 2 and self.value == 32767
-
-    def up_down_arrow_released(self):
-        # arrow buttons on release are not distinguishable and if you think about it,
-        # they are following same principle as the joystick buttons which only have 1
-        # state at rest which is shared between left/ right / up /down inputs
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 7 and self.button_type == 2 and self.value == 0
-        return self.button_id == 10 and self.button_type == 2 and self.value == 0
-
-    # left / right arrows #
-    def left_arrow_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 6 and self.button_type == 2 and self.value == -32767
-        return self.button_id == 9 and self.button_type == 2 and self.value == -32767
-
-    def right_arrow_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 6 and self.button_type == 2 and self.value == 32767
-        return self.button_id == 9 and self.button_type == 2 and self.value == 32767
-
-    def left_right_arrow_released(self):
-        # arrow buttons on release are not distinguishable and if you think about it,
-        # they are following same principle as the joystick buttons which only have 1
-        # state at rest which is shared between left/ right / up /down inputs
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 6 and self.button_type == 2 and self.value == 0
-        return self.button_id == 9 and self.button_type == 2 and self.value == 0
-
-    def playstation_button_pressed(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 10 and self.button_type == 1 and self.value == 1
-        return False  # cant identify this event when connected through ds4drv
-
-    def playstation_button_released(self):
-        if not self.connecting_using_ds4drv:
-            return self.button_id == 10 and self.button_type == 1 and self.value == 0
-        return False  # cant identify this event when connected through ds4drv
-
-
 class Actions:
     """
     Actions are inherited in the Controller class.
@@ -394,8 +183,18 @@ class Controller(Actions):
             # when device is connected via ds4drv its sending hundreds of events for those button IDs
             # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
             self.black_listed_buttons += [6, 7, 8, 11, 12, 13]
-        self.event_definition = event_definition if event_definition else Event
         self.event_format = event_format if event_format else "LhBB"
+
+        if event_definition is None:  # means it wasn't specified by user
+            if self.event_format == "3Bh2b":
+                from pyPS4Controller.event_mapping.Mapping3Bh2b import Mapping3Bh2b
+                self.event_definition = Mapping3Bh2b
+            else:
+                from pyPS4Controller.event_mapping.MappingLhBB import MappingLhBB
+                self.event_definition = MappingLhBB
+        else:
+            self.event_definition = event_definition
+
         self.event_size = struct.calcsize(self.event_format)
         self.event_history = []
 
@@ -446,6 +245,10 @@ class Controller(Actions):
             return [start for start in range(start_index, len(full) - len(sub) + 1) if
                     sub == full[start:start + len(sub)]]
 
+        def unpack():
+            __event = struct.unpack(self.event_format, event)
+            return (__event[3:], __event[2], __event[1], __event[0])
+
         wait_for_interface()
         try:
             _file = open(self.interface, "rb")
@@ -454,11 +257,11 @@ class Controller(Actions):
                 on_sequence = []
             special_inputs_indexes = [0] * len(on_sequence)
             while not self.stop and event:
-                (*tv_sec, value, button_type, button_id) = struct.unpack(self.event_format, event)
+                (overflow, value, button_type, button_id) = unpack()
                 if self.debug:
                     print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
                 if button_id not in self.black_listed_buttons:
-                    self.__handle_event(button_id=button_id, button_type=button_type, value=value)
+                    self.__handle_event(button_id=button_id, button_type=button_type, value=value, overflow=overflow)
                 for i, special_input in enumerate(on_sequence):
                     check = check_for(special_input["inputs"], self.event_history, special_inputs_indexes[i])
                     if len(check) != 0:
@@ -470,12 +273,13 @@ class Controller(Actions):
             on_disconnect_callback()
             exit(1)
 
-    def __handle_event(self, button_id, button_type, value):
+    def __handle_event(self, button_id, button_type, value, overflow):
 
         event = self.event_definition(button_id=button_id,
                                       button_type=button_type,
                                       value=value,
-                                      connecting_using_ds4drv=self.connecting_using_ds4drv)
+                                      connecting_using_ds4drv=self.connecting_using_ds4drv,
+                                      overflow=overflow)
 
         if event.R3_event():
             self.event_history.append("right_joystick")
