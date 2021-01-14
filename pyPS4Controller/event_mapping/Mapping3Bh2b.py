@@ -3,7 +3,7 @@ from pyPS4Controller.event_mapping.MappingLhBB import MappingLhBB
 
 class Mapping3Bh2b(MappingLhBB):
 
-    def __init__(self, button_id, button_type, value, connecting_using_ds4drv, overflow):
+    def __init__(self, button_id, button_type, value, connecting_using_ds4drv, overflow, debug=False):
         """
         For 3Bh2b format, all the data that can distinguish buttons in in the overflow tuple
         :param button_id: Just a placeholder in the signature
@@ -11,12 +11,13 @@ class Mapping3Bh2b(MappingLhBB):
         :param value:  Just a placeholder in the signature
         :param connecting_using_ds4drv: Just a placeholder in the signature
         :param overflow: TUPLE aka (0, 1, 8) aka (value, type_id, button_id)
+        :param debug: BOOLEAN
         """
         self.button_id = overflow[2]
         self.button_type = overflow[1]
         self.value = overflow[0]
         self.connecting_using_ds4drv = connecting_using_ds4drv
-        MappingLhBB.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv)
+        MappingLhBB.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv, debug)
 
     # Square / Triangle / Circle / X Button group #
     def circle_pressed(self):

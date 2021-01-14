@@ -258,10 +258,9 @@ class Controller(Actions):
             special_inputs_indexes = [0] * len(on_sequence)
             while not self.stop and event:
                 (overflow, value, button_type, button_id) = unpack()
-                if self.debug:
-                    print("button_id: {} button_type: {} value: {}".format(button_id, button_type, value))
                 if button_id not in self.black_listed_buttons:
-                    self.__handle_event(button_id=button_id, button_type=button_type, value=value, overflow=overflow)
+                    self.__handle_event(button_id=button_id, button_type=button_type, value=value, overflow=overflow,
+                                        debug=self.debug)
                 for i, special_input in enumerate(on_sequence):
                     check = check_for(special_input["inputs"], self.event_history, special_inputs_indexes[i])
                     if len(check) != 0:
@@ -273,13 +272,14 @@ class Controller(Actions):
             on_disconnect_callback()
             exit(1)
 
-    def __handle_event(self, button_id, button_type, value, overflow):
+    def __handle_event(self, button_id, button_type, value, overflow, debug):
 
         event = self.event_definition(button_id=button_id,
                                       button_type=button_type,
                                       value=value,
                                       connecting_using_ds4drv=self.connecting_using_ds4drv,
-                                      overflow=overflow)
+                                      overflow=overflow,
+                                      debug=debug)
 
         if event.R3_event():
             self.event_history.append("right_joystick")
