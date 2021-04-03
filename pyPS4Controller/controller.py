@@ -288,13 +288,13 @@ class Controller(Actions):
             elif event.R3_x_at_rest():
                 self.on_R3_x_at_rest()
             elif event.R3_right():
-                self.on_R3_right(value)
+                self.on_R3_right(event.value)
             elif event.R3_left():
-                self.on_R3_left(value)
+                self.on_R3_left(event.value)
             elif event.R3_up():
-                self.on_R3_up(value)
+                self.on_R3_up(event.value)
             elif event.R3_down():
-                self.on_R3_down(value)
+                self.on_R3_down(event.value)
         elif event.L3_event():
             self.event_history.append("left_joystick")
             if event.L3_y_at_rest():
@@ -302,13 +302,13 @@ class Controller(Actions):
             elif event.L3_x_at_rest():
                 self.on_L3_x_at_rest()
             elif event.L3_up():
-                self.on_L3_up(value)
+                self.on_L3_up(event.value)
             elif event.L3_down():
-                self.on_L3_down(value)
+                self.on_L3_down(event.value)
             elif event.L3_left():
-                self.on_L3_left(value)
+                self.on_L3_left(event.value)
             elif event.L3_right():
-                self.on_L3_right(value)
+                self.on_L3_right(event.value)
         elif event.circle_pressed():
             self.event_history.append("circle")
             self.on_circle_press()
@@ -336,7 +336,7 @@ class Controller(Actions):
             self.on_L1_release()
         elif event.L2_pressed():
             self.event_history.append("L2")
-            self.on_L2_press(value)
+            self.on_L2_press(event.value)
         elif event.L2_released():
             self.on_L2_release()
         elif event.R1_pressed():
@@ -346,7 +346,7 @@ class Controller(Actions):
             self.on_R1_release()
         elif event.R2_pressed():
             self.event_history.append("R2")
-            self.on_R2_press(value)
+            self.on_R2_press(event.value)
         elif event.R2_released():
             self.on_R2_release()
         elif event.options_pressed():
