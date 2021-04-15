@@ -1,7 +1,10 @@
 import os
 import struct
 import time
+import logging
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 class Actions:
     """
@@ -13,6 +16,7 @@ class Actions:
         return
 
     def on_x_press(self):
+        logger.debug("on_x_press")
         print("on_x_press")
 
     def on_x_release(self):

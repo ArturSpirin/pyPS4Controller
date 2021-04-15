@@ -2,8 +2,15 @@ from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
 
 
 class Mapping3Bh2b(DefaultMapping):
-
-    def __init__(self, button_id, button_type, value, connecting_using_ds4drv, overflow, debug=False):
+    def __init__(
+        self,
+        button_id,
+        button_type,
+        value,
+        connecting_using_ds4drv,
+        overflow,
+        debug=False,
+    ):
         """
         For 3Bh2b format, all the data that can distinguish buttons in in the overflow tuple
         :param button_id: Just a placeholder in the signature
@@ -19,16 +26,21 @@ class Mapping3Bh2b(DefaultMapping):
         self.connecting_using_ds4drv = connecting_using_ds4drv
         self.overflow = overflow
         if debug:
-            print("button_id: {} button_type: {} value: {} overflow: {}"
-                  .format(self.button_id, self.button_type, self.value, self.overflow))
-        DefaultMapping.__init__(self, self.button_id, self.button_type, self.value, connecting_using_ds4drv)
+            print(
+                "button_id: {} button_type: {} value: {} overflow: {}".format(
+                    self.button_id, self.button_type, self.value, self.overflow
+                )
+            )
+        DefaultMapping.__init__(
+            self, self.button_id, self.button_type, self.value, connecting_using_ds4drv
+        )
 
     # Square / Triangle / Circle / X Button group #
     def circle_pressed(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 1        
+        return self.button_id == 2 and self.button_type == 1 and self.value == 1
 
     def circle_released(self):
-        return self.button_id == 2 and self.button_type == 1 and self.value == 0        
+        return self.button_id == 2 and self.button_type == 1 and self.value == 0
 
     def x_pressed(self):
         return self.button_id == 1 and self.button_type == 1 and self.value == 1
