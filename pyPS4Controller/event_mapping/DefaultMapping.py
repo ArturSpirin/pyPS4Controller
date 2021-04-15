@@ -1,4 +1,12 @@
 class DefaultMapping:
+    # static constants extreme values for joysticks
+    L3R3_LEFT = -32767
+    L3R3_RIGHT = 32767
+    L3R3_UP = -32767
+    L3R3_DOWN = 32767
+    L2R2_PRESSED_MAX = 32767
+    L2R2_PRESSED_MIN = -32766
+
     def __init__(
         self,
         button_id,
@@ -42,13 +50,13 @@ class DefaultMapping:
         return self.button_id in [0] and self.value == 0
 
     def L3_up(self):
-        return self.button_id == 1 and self.value < 0
-
+        return self.button_id == 1 and self.value < 0        
+        
     def L3_down(self):
         return self.button_id == 1 and self.value > 0
 
     def L3_left(self):
-        return self.button_id == 0 and self.value < 0
+        return self.button_id == 0 and self.value < 0       
 
     def L3_right(self):
         return self.button_id == 0 and self.value > 0
