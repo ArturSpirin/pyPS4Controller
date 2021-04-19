@@ -1,6 +1,6 @@
 from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
 
-
+# TODO move prints to logger if needed
 class Mapping3Bh2b(DefaultMapping):
     def __init__(
         self,

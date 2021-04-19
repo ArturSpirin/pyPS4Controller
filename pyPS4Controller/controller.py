@@ -3,8 +3,16 @@ import struct
 import time
 import logging
 
+###
+# NOTE, eventhandler prints are disable in INFO level.
+# To enable them, use:
+#   logger = logging.getLogger("pyPS4Controller.controller")
+#   logger.setLevel(logging.DEBUG)
+# in main program level.
+###
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
 
 class Actions:
     """
@@ -12,161 +20,163 @@ class Actions:
     In order to bind to the controller events, subclass the Controller class and
     override desired action events in this class.
     """
+
     def __init__(self):
         return
 
     def on_x_press(self):
         logger.debug("on_x_press")
-        print("on_x_press")
 
     def on_x_release(self):
-        print("on_x_release")
+        logger.debug("on_x_release")
 
     def on_triangle_press(self):
-        print("on_triangle_press")
+        logger.debug("on_triangle_press")
 
     def on_triangle_release(self):
-        print("on_triangle_release")
+        logger.debug("on_triangle_release")
 
     def on_circle_press(self):
-        print("on_circle_press")
+        logger.debug("on_circle_press")
 
     def on_circle_release(self):
-        print("on_circle_release")
+        logger.debug("on_circle_release")
 
     def on_square_press(self):
-        print("on_square_press")
+        logger.debug("on_square_press")
 
     def on_square_release(self):
-        print("on_square_release")
+        logger.debug("on_square_release")
 
     def on_L1_press(self):
-        print("on_L1_press")
+        logger.debug("on_L1_press")
 
     def on_L1_release(self):
-        print("on_L1_release")
+        logger.debug("on_L1_release")
 
     def on_L2_press(self, value):
-        print("on_L2_press: {}".format(value))
+        logger.debug("on_L2_press: %i", value)
 
     def on_L2_release(self):
-        print("on_L2_release")
+        logger.debug("on_L2_release")
 
     def on_R1_press(self):
-        print("on_R1_press")
+        logger.debug("on_R1_press")
 
     def on_R1_release(self):
-        print("on_R1_release")
+        logger.debug("on_R1_release")
 
     def on_R2_press(self, value):
-        print("on_R2_press: {}".format(value))
+        logger.debug("on_R2_press: %i", value)
 
     def on_R2_release(self):
-        print("on_R2_release")
+        logger.debug("on_R2_release")
 
     def on_up_arrow_press(self):
-        print("on_up_arrow_press")
+        logger.debug("on_up_arrow_press")
 
     def on_up_down_arrow_release(self):
-        print("on_up_down_arrow_release")
+        logger.debug("on_up_down_arrow_release")
 
     def on_down_arrow_press(self):
-        print("on_down_arrow_press")
+        logger.debug("on_down_arrow_press")
 
     def on_left_arrow_press(self):
-        print("on_left_arrow_press")
+        logger.debug("on_left_arrow_press")
 
     def on_left_right_arrow_release(self):
-        print("on_left_right_arrow_release")
+        logger.debug("on_left_right_arrow_release")
 
     def on_right_arrow_press(self):
-        print("on_right_arrow_press")
+        logger.debug("on_right_arrow_press")
 
     def on_L3_up(self, value):
-        print("on_L3_up: {}".format(value))
+        logger.debug("on_L3_up: %i", value)
 
     def on_L3_down(self, value):
-        print("on_L3_down: {}".format(value))
+        logger.debug("on_L3_down: %i", value)
 
     def on_L3_left(self, value):
-        print("on_L3_left: {}".format(value))
+        logger.debug("on_L3_left: %i", value)
 
     def on_L3_right(self, value):
-        print("on_L3_right: {}".format(value))
+        logger.debug("on_L3_right: %i", value)
 
     def on_L3_y_at_rest(self):
         """L3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_L3_y_at_rest")
+        logger.debug("on_L3_y_at_rest")
 
     def on_L3_x_at_rest(self):
         """L3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_L3_x_at_rest")
+        logger.debug("on_L3_x_at_rest")
 
     def on_L3_press(self):
         """L3 joystick is clicked. This event is only detected when connecting without ds4drv"""
-        print("on_L3_press")
+        logger.debug("on_L3_press")
 
     def on_L3_release(self):
         """L3 joystick is released after the click. This event is only detected when connecting without ds4drv"""
-        print("on_L3_release")
+        logger.debug("on_L3_release")
 
     def on_R3_up(self, value):
-        print("on_R3_up: {}".format(value))
+        logger.debug("on_R3_up: %i", value)
 
     def on_R3_down(self, value):
-        print("on_R3_down: {}".format(value))
+        logger.debug("on_R3_down: %i", value)
 
     def on_R3_left(self, value):
-        print("on_R3_left: {}".format(value))
+        logger.debug("on_R3_left: %i", value)
 
     def on_R3_right(self, value):
-        print("on_R3_right: {}".format(value))
+        logger.debug("on_R3_right: %i", value)
 
     def on_R3_y_at_rest(self):
         """R3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_R3_y_at_rest")
+        logger.debug("on_R3_y_at_rest")
 
     def on_R3_x_at_rest(self):
         """R3 joystick is at rest after the joystick was moved and let go off"""
-        print("on_R3_x_at_rest")
+        logger.debug("on_R3_x_at_rest")
 
     def on_R3_press(self):
         """R3 joystick is clicked. This event is only detected when connecting without ds4drv"""
-        print("on_R3_press")
+        logger.debug("on_R3_press")
 
     def on_R3_release(self):
         """R3 joystick is released after the click. This event is only detected when connecting without ds4drv"""
-        print("on_R3_release")
+        logger.debug("on_R3_release")
 
     def on_options_press(self):
-        print("on_options_press")
+        logger.debug("on_options_press")
 
     def on_options_release(self):
-        print("on_options_release")
+        logger.debug("on_options_release")
 
     def on_share_press(self):
         """this event is only detected when connecting without ds4drv"""
-        print("on_share_press")
+        logger.debug("on_share_press")
 
     def on_share_release(self):
         """this event is only detected when connecting without ds4drv"""
-        print("on_share_release")
+        logger.debug("on_share_release")
 
     def on_playstation_button_press(self):
         """this event is only detected when connecting without ds4drv"""
-        print("on_playstation_button_press")
+        logger.debug("on_playstation_button_press")
 
     def on_playstation_button_release(self):
         """this event is only detected when connecting without ds4drv"""
-        print("on_playstation_button_release")
+        logger.debug("on_playstation_button_release")
 
 
 class Controller(Actions):
-
     def __init__(
-            self, interface, connecting_using_ds4drv=True,
-            event_definition=None, event_format=None
-                ):
+        self,
+        interface,
+        connecting_using_ds4drv=True,
+        event_definition=None,
+        event_format=None,
+    ):
         """
         Initiate controller instance that is capable of listening to all events on specified input interface
         :param interface: STRING aka /dev/input/js0 or any other PS4 Duelshock controller interface.
@@ -182,7 +192,9 @@ class Controller(Actions):
         self.interface = interface
         self.connecting_using_ds4drv = connecting_using_ds4drv
         self.debug = False  # If you want to see raw event stream, set this to True.
-        self.black_listed_buttons = []  # set a list of blocked buttons if you dont want to process their events
+        self.black_listed_buttons = (
+            []
+        )  # set a list of blocked buttons if you dont want to process their events
         if self.connecting_using_ds4drv and event_definition is None:
             # when device is connected via ds4drv its sending hundreds of events for those button IDs
             # thus they are blacklisted by default. Feel free to adjust this list to your linking when sub-classing
@@ -192,9 +204,11 @@ class Controller(Actions):
         if event_definition is None:  # means it wasn't specified by user
             if self.event_format == "LhBB":
                 from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
+
                 self.event_definition = DefaultMapping
             else:
                 from pyPS4Controller.event_mapping.Mapping3Bh2b import Mapping3Bh2b
+
                 self.event_definition = Mapping3Bh2b
         else:
             self.event_definition = event_definition
@@ -216,6 +230,7 @@ class Controller(Actions):
                                   "callback": () -> None)}]
         :return: None
         """
+
         def on_disconnect_callback():
             self.is_connected = False
             if on_disconnect is not None:
@@ -227,27 +242,32 @@ class Controller(Actions):
                 on_connect()
 
         def wait_for_interface():
-            print("Waiting for interface: {} to become available . . .".format(self.interface))
+            logger.info(
+                "Waiting for interface: %s to become available . . .", self.interface
+            )
             for i in range(timeout):
                 if os.path.exists(self.interface):
-                    print("Successfully bound to: {}.".format(self.interface))
+                    logger.info("Successfully bound to: %s.", self.interface)
                     on_connect_callback()
                     return
                 time.sleep(1)
-            print("Timeout({} sec). Interface not available.".format(timeout))
+            logger.info("Timeout(%i sec). Interface not available.", timeout)
             exit(1)
 
         def read_events():
             try:
                 return _file.read(self.event_size)
             except IOError:
-                print("Interface lost. Device disconnected?")
+                logger.error("Interface lost. Device disconnected?")
                 on_disconnect_callback()
                 exit(1)
 
         def check_for(sub, full, start_index):
-            return [start for start in range(start_index, len(full) - len(sub) + 1) if
-                    sub == full[start:start + len(sub)]]
+            return [
+                start
+                for start in range(start_index, len(full) - len(sub) + 1)
+                if sub == full[start : start + len(sub)]
+            ]
 
         def unpack():
             __event = struct.unpack(self.event_format, event)
@@ -263,27 +283,38 @@ class Controller(Actions):
             while not self.stop and event:
                 (overflow, value, button_type, button_id) = unpack()
                 if button_id not in self.black_listed_buttons:
-                    self.__handle_event(button_id=button_id, button_type=button_type, value=value, overflow=overflow,
-                                        debug=self.debug)
+                    self.__handle_event(
+                        button_id=button_id,
+                        button_type=button_type,
+                        value=value,
+                        overflow=overflow,
+                        debug=self.debug,
+                    )
                 for i, special_input in enumerate(on_sequence):
-                    check = check_for(special_input["inputs"], self.event_history, special_inputs_indexes[i])
+                    check = check_for(
+                        special_input["inputs"],
+                        self.event_history,
+                        special_inputs_indexes[i],
+                    )
                     if len(check) != 0:
                         special_inputs_indexes[i] = check[0] + 1
                         special_input["callback"]()
                 event = read_events()
         except KeyboardInterrupt:
-            print("\nExiting (Ctrl + C)")
+            logger.info("\nExiting (Ctrl + C)")
             on_disconnect_callback()
             exit(1)
 
     def __handle_event(self, button_id, button_type, value, overflow, debug):
 
-        event = self.event_definition(button_id=button_id,
-                                      button_type=button_type,
-                                      value=value,
-                                      connecting_using_ds4drv=self.connecting_using_ds4drv,
-                                      overflow=overflow,
-                                      debug=debug)
+        event = self.event_definition(
+            button_id=button_id,
+            button_type=button_type,
+            value=value,
+            connecting_using_ds4drv=self.connecting_using_ds4drv,
+            overflow=overflow,
+            debug=debug,
+        )
 
         if event.R3_event():
             self.event_history.append("right_joystick")
