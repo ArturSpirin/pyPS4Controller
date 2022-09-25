@@ -198,7 +198,7 @@ class Controller(Actions):
         self.event_size = struct.calcsize(self.event_format)
         self.event_history = []
 
-    def listen(self, timeout=30, on_connect=None, on_disconnect=None, on_sequence=None):
+    def listen(self, timeout=30, on_connect=None, on_disconnect=None, on_sequence=None, retry=True):
         """
         Start listening for events on a given self.interface
         :param timeout: INT, seconds. How long you want to wait for the self.interface.
@@ -210,6 +210,9 @@ class Controller(Actions):
                             e.g [{"inputs": ['up', 'up', 'down', 'down', 'left', 'right,
                                              'left', 'right, 'start', 'options'],
                                   "callback": () -> None)}]
+        :param retry: boolean, allows the user to specify if connection to controller should be
+                      re-attempted upon disconnection (within the timeout window).
+                      Defaults to True: connection will be re-attempted upon disconnection within the timeout window.
         :return: None
         """
         def on_disconnect_callback():
@@ -234,12 +237,32 @@ class Controller(Actions):
             exit(1)
 
         def read_events():
-            try:
-                return _file.read(self.event_size)
-            except IOError:
-                print("Interface lost. Device disconnected?")
-                on_disconnect_callback()
-                exit(1)
+            error = False
+            nonlocal _file
+
+            while True:
+                try:
+                    if error:
+                        # retry to read interface after connection was re-established
+                        _file = open(self.interface, "rb")
+                        return _file.read(self.event_size)
+                    else:
+                        return _file.read(self.event_size)
+                except IOError:
+                    error = True
+                    print("Interface lost. Device disconnected?")
+                    # lost interface, handle disconnect callback
+                    on_disconnect_callback()
+                    # choice of connection retry specified by user in listen() (defaults to retry)
+                    if retry:
+                        # aquire a new connection, handle connection callback upon re-connection
+                        wait_for_interface()
+                        # restart the loop with a working connection
+                        continue
+                    else:
+                        # do not attempt to re-establish connection
+                        exit(1)
+                        
 
         def check_for(sub, full, start_index):
             return [start for start in range(start_index, len(full) - len(sub) + 1) if
